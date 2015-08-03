@@ -1,0 +1,32 @@
+.likes {
+    margin: 10px 0 0 0;
+}
+
+.likes  .votes-up, .likes  .votes-down {
+    margin: 0 15px 0 5px;
+}
+
+.likes .votes-up {
+    color: #009900;
+}
+
+.likes .votes-down {
+    color: #CC0000;
+}
+
+.liker img{
+    height: 24px;
+    width: 24px;
+}
+
+.likes .like img {
+    margin-top: -8px;
+}
+
+.likes .dislike img {
+    margin-top: 8px;
+}
+
+.likes a {
+    text-decoration: none;
+}

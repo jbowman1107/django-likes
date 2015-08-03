@@ -4,15 +4,34 @@
     <script type="text/javascript" src="{{ STATIC_URL }}likes/includes/likes.js"></script>
 {% endif %}
 
+<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}likes/styles/generic.css">
+
 {% if likes_enabled %}
     <div class="likes">
-        {{ content_obj.vote_total }}
-        <span>
-            {% if can_vote %}
-                <a class="liker" href="{% url "like" content_type content_obj.id 1 %}" rel="nofollow">{% trans "I Like" %}</a>
+        <span class="like">
+            {% if user_vote > 0 %}
+                <a class="liker" href="{% url "like" content_type content_obj.id 0 %}" rel="nofollow">
+                    <img src="{{ STATIC_URL }}likes/img/liked.png">
+                </a>
             {% else %}
-                {% trans "Likes" %}
+                <a class="liker" href="{% url "like" content_type content_obj.id +1 %}" rel="nofollow">
+                    <img src="{{ STATIC_URL }}likes/img/like.png">
+                </a>
             {% endif %}
         </span>
+        <b class="votes-up">{{ content_obj.total_upvotes }}</b>
+
+        <span class="dislike">
+            {% if user_vote < 0 %}
+                <a class="liker" href="{% url "like" content_type content_obj.id 0 %}" rel="nofollow">
+                    <img src="{{ STATIC_URL }}likes/img/disliked.png">
+                </a>
+            {% else %}
+                <a class="liker" href="{% url "like" content_type content_obj.id -1 %}" rel="nofollow">
+                    <img src="{{ STATIC_URL }}likes/img/dislike.png">
+                </a>
+            {% endif %}
+        </span>
+        <b class="votes-down">{{ content_obj.total_downvotes }}</b>
     </div>
 {% endif %}
