@@ -71,3 +71,12 @@ likes.signals.can_vote_test
 +++++++++++++++++++++++++++
 To determine whether or not the current requesting user can vote, connect a signal handler to the ``likes.signals.can_vote_test`` signal, raising a ``likes.exceptions.CannotVoteException`` if the current user should not be allowed to vote (the handler receives a request object). The default behaviour is that all users can vote except if they have previously voted on the object in question.
 
+Common changes in this fork
+---------------------------
+#. ``can_vote`` in template's likes.html context is always ``True`` when the signal ``likes.signals.can_vote_test`` is not intercepted.
+
+#. Bug fix: a ``content_obj`` in template context (likes.html) without special manager.
+
+#. Add ``user_vote`` in template's likes.html context
+
+#. Rewrote like.html. Feel free to like/dislike an object or remove your vote!
