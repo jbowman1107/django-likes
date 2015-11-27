@@ -35,7 +35,7 @@ def like(request, content_type, id, vote):
         except template.TemplateDoesNotExist:
             likes_template = 'likes/inclusion_tags/likes.html'
 
-        context_pocessor = ContentObjProcessor(content_type.model_class(), id)
+        context_processor = ContentObjProcessor(request, content_type.model_class(), id)
 
         response = views.vote(
             request,
@@ -44,11 +44,11 @@ def like(request, content_type, id, vote):
             vote=vote,
             template_name=likes_template,
             can_vote_test=can_vote_test,
-            context_processors=[context_pocessor],
             extra_context={
                 'likes_enabled': True,
                 'can_vote': False,
                 'content_type': url_friendly_content_type,
+                'likes_context': context_processor
             }
         )
     else:
@@ -77,15 +77,15 @@ class ContentObjProcessor(object):
        Put into context an object with special manager.
        That enables the inclusion of ``total_upvotes`` and ``total_downvotes``
        as well as some extra functionality.
-
        """
 
-    def __init__(self, model_class, obj_id):
+    def __init__(self, request, model_class, obj_id):
         self.cls = model_class
         self.obj_id = obj_id
+        self.request = request
 
-    def __call__(self, request):
-        obj = self.cls.objects.from_request(request).get(pk=self.obj_id)
+    def __call__(self):
+        obj = self.cls.objects.from_request(self.request).get(pk=self.obj_id)
         return {
             'content_obj': obj,
             'user_vote': obj.user_vote,
